@@ -13,6 +13,7 @@ public class InterfaceToolkit: NSObject {
     internal static var DebugBordersChangeNotification: NSNotification.Name = NSNotification.Name("DebugBordersChangeNotification")
     internal static var SlowAnimationsUserDefaultsKey: String = "Scyther_Interface_Toolkit_Slow_Animations_Enabled"
     internal static var ViewFramesUserDefaultsKey: String = "Scyther_Interface_Toolkit_View_Borders_Enabled"
+    internal static var ViewTouchesUserDefaultsKey: String = "Scyther_Interface_Toolkit_View_Touches_Enabled"
 
     /// Private Init to Stop re-initialisation and allow singleton creation.
     override private init() { }
@@ -42,6 +43,15 @@ public class InterfaceToolkit: NSObject {
         set {
             UserDefaults.standard.setValue(newValue, forKey: InterfaceToolkit.SlowAnimationsUserDefaultsKey)
             setWindowSpeed()
+        }
+    }
+    internal var visualiseTouchesEnabled: Bool {
+        get {
+            UserDefaults.standard.bool(forKey: InterfaceToolkit.ViewTouchesUserDefaultsKey)
+        }
+        set {
+            UserDefaults.standard.setValue(newValue, forKey: InterfaceToolkit.ViewTouchesUserDefaultsKey)
+            setVisualiseTouches()
         }
     }
 
@@ -86,6 +96,7 @@ public class InterfaceToolkit: NSObject {
         }
         addTopLevelViewsWrapperToWindow(window: window)
         setWindowSpeed()
+        setVisualiseTouches()
     }
 
     public override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey: Any]?, context: UnsafeMutableRawPointer?) {
@@ -116,6 +127,15 @@ extension InterfaceToolkit {
 extension InterfaceToolkit {
     internal func setWindowSpeed() {
         let speed: Float = slowAnimationsEnabled ? 0.1 : 1.0
+        for window in UIApplication.shared.windows {
+            window.layer.speed = speed
+        }
+    }
+}
+
+// MARK: - Visualise Touches
+extension InterfaceToolkit {
+    internal func setVisualiseTouches() {
         for window in UIApplication.shared.windows {
             window.layer.speed = speed
         }
