@@ -141,4 +141,8 @@ class NetworkLogsViewModel: ViewModel {
             requests = filtered
         }
     }
+    
+    func didPressDeleteButton() async {
+        await networkLogger.clear()
+    }
 }

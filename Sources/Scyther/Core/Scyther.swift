@@ -554,6 +554,13 @@ public final class Notifications: Sendable {
     public var logged: [PushNotification] {
         NotificationTester.instance.notifications
     }
+    
+    /// Adds a push notification payload to the NotificationTester instance
+    ///
+    /// - Parameter userInfo: `userInfo` payload received by the device from APNS
+    public func logNotification(_ userInfo: [AnyHashable : Any]) {
+        NotificationTester.instance.processNotification(userInfo)
+    }
 }
 
 /// Captures and displays console output.

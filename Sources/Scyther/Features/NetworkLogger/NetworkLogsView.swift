@@ -30,7 +30,7 @@ struct NetworkLogsView: View {
     @State private var searchText: String = ""
 
     /// View model managing the network logs state and filtering.
-    @StateObject private var viewModel: NetworkLogsViewModel = NetworkLogsViewModel()
+    @StateObject private var viewModel: NetworkLogsViewModel = .init()
 
     var body: some View {
         List {
@@ -45,11 +45,21 @@ struct NetworkLogsView: View {
                         top: .zero,
                         leading: .zero,
                         bottom: .zero,
-                        trailing: 16)
+                        trailing: 16
+                    )
                 )
             }
         }
         .listStyle(.plain)
+        .toolbar {
+            ToolbarItem(placement: .topBarTrailing) {
+                Button("Delete", systemImage: "trash", role: .destructive) {
+                    Task {
+                        await viewModel.didPressDeleteButton()
+                    }
+                }
+            }
+        }
         .searchable(
             text: $searchText,
             placement: .navigationBarDrawer(displayMode: .always),
