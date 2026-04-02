@@ -191,8 +191,6 @@ public final class AppearanceOverrides: Sendable {
                 // Apply content size category override
                 if let category = contentSizeCategory {
                     windowScene.traitOverrides.preferredContentSizeCategory = category
-                } else {
-                    windowScene.traitOverrides.preferredContentSizeCategory = .unspecified
                 }
             }
         }
