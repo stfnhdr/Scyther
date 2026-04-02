@@ -84,7 +84,12 @@ class FontsViewModel: ViewModel {
             FontFamily(
                 name: familyName,
                 fonts: UIFont.fontNames(forFamilyName: familyName).map { fontName in
-                    FontItem(name: fontName, uiFont: UIFont(name: fontName, size: 16.0))
+                    FontItem(
+                        name: fontName,
+                        uiFont: UIFont(name: fontName, size: 16.0).map {
+                            UIFontMetrics.default.scaledFont(for: $0)
+                        }
+                    )
                 }
             )
         }
