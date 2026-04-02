@@ -177,8 +177,6 @@ public final class AppearanceOverrides: Sendable {
 
     /// Applies trait overrides (high contrast, content size) to all window scenes.
     private func applyTraitOverrides() {
-        guard highContrastEnabled || contentSizeCategory != nil else { return }
-        
         if #available(iOS 17.0, *) {
             for scene in UIApplication.shared.connectedScenes {
                 guard let windowScene = scene as? UIWindowScene else { continue }
@@ -194,7 +192,7 @@ public final class AppearanceOverrides: Sendable {
                 if let category = contentSizeCategory {
                     windowScene.traitOverrides.preferredContentSizeCategory = category
                 } else {
-                    windowScene.traitOverrides.preferredContentSizeCategory = .unspecified
+                    windowScene.traitOverrides.preferredContentSizeCategory = UIApplication.shared.preferredContentSizeCategory
                 }
             }
         }
